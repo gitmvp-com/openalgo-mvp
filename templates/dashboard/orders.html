@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Orders - OpenAlgo MVP{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div class="flex justify-between items-center">
+        <h1 class="text-3xl font-bold">📊 Order Book</h1>
+        <a href="{{ url_for('dashboard.index') }}" class="btn btn-outline btn-sm">← Back to Dashboard</a>
+    </div>
+    
+    <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+            <div class="overflow-x-auto">
+                <table class="table table-zebra">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Order ID</th>
+                            <th>Symbol</th>
+                            <th>Exchange</th>
+                            <th>Action</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Type</th>
+                            <th>Product</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if orders %}
+                            {% for order in orders %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td><code class="text-xs">{{ order.order_id }}</code></td>
+                                <td><span class="badge badge-outline">{{ order.symbol }}</span></td>
+                                <td>{{ order.exchange }}</td>
+                                <td>
+                                    <span class="badge {{ 'badge-success' if order.action == 'BUY' else 'badge-error' }}">
+                                        {{ order.action }}
+                                    </span>
+                                </td>
+                                <td>{{ order.quantity }}</td>
+                                <td>₹{{ "%.2f"|format(order.price) if order.price else 'MARKET' }}</td>
+                                <td>{{ order.order_type }}</td>
+                                <td>{{ order.product }}</td>
+                                <td>
+                                    <span class="badge {{ 'badge-warning' if order.status == 'PENDING' else 'badge-success' if order.status == 'COMPLETE' else 'badge-error' }}">
+                                        {{ order.status }}
+                                    </span>
+                                </td>
+                                <td>{{ order.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="11" class="text-center text-gray-500 py-8">
+                                    <div class="flex flex-col items-center gap-4">
+                                        <span class="text-6xl">📭</span>
+                                        <p>No orders found</p>
+                                        <p class="text-sm">Start trading using the API to see orders here</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
