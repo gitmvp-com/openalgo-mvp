@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}404 - Page Not Found{% endblock %}
+
+{% block content %}
+<div class="hero min-h-screen bg-base-200">
+    <div class="hero-content text-center">
+        <div class="max-w-md">
+            <h1 class="text-9xl font-bold">404</h1>
+            <p class="py-6 text-2xl">Page Not Found</p>
+            <p class="text-gray-500">The page you're looking for doesn't exist or has been moved.</p>
+            <div class="mt-6">
+                <a href="{{ url_for('dashboard.index') if session.logged_in else url_for('auth.login') }}" class="btn btn-primary">
+                    Go Home
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
