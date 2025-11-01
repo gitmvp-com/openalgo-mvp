@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - OpenAlgo MVP{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div class="flex justify-between items-center">
+        <h1 class="text-3xl font-bold">Dashboard</h1>
+        <div class="text-sm">Welcome, <span class="font-semibold">{{ user.username }}</span>!</div>
+    </div>
+    
+    <!-- Statistics Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="stats shadow">
+            <div class="stat">
+                <div class="stat-title">Total Orders</div>
+                <div class="stat-value">{{ stats.total_orders }}</div>
+                <div class="stat-desc">All time</div>
+            </div>
+        </div>
+        
+        <div class="stats shadow">
+            <div class="stat">
+                <div class="stat-title">Pending Orders</div>
+                <div class="stat-value text-warning">{{ stats.pending_orders }}</div>
+                <div class="stat-desc">Awaiting execution</div>
+            </div>
+        </div>
+        
+        <div class="stats shadow">
+            <div class="stat">
+                <div class="stat-title">Completed</div>
+                <div class="stat-value text-success">{{ stats.completed_orders }}</div>
+                <div class="stat-desc">Successfully executed</div>
+            </div>
+        </div>
+        
+        <div class="stats shadow">
+            <div class="stat">
+                <div class="stat-title">API Status</div>
+                <div class="stat-value text-xs">🟢 Active</div>
+                <div class="stat-desc">All systems operational</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- API Key Section -->
+    <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title">🔑 Your API Key</h2>
+            <div class="form-control">
+                <div class="input-group">
+                    <input type="text" value="{{ stats.api_key }}" class="input input-bordered w-full" readonly />
+                    <button class="btn btn-square" onclick="navigator.clipboard.writeText('{{ stats.api_key }}')">
+                        📋
+                    </button>
+                </div>
+            </div>
+            <p class="text-sm text-gray-500 mt-2">Use this API key to authenticate your trading requests.</p>
+        </div>
+    </div>
+    
+    <!-- Recent Orders -->
+    <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title">📈 Recent Orders</h2>
+            <div class="overflow-x-auto">
+                <table class="table table-zebra">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Symbol</th>
+                            <th>Action</th>
+                            <th>Quantity</th>
+                            <th>Status</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if recent_orders %}
+                            {% for order in recent_orders %}
+                            <tr>
+                                <td>{{ order.order_id }}</td>
+                                <td><span class="badge badge-outline">{{ order.symbol }}</span></td>
+                                <td>
+                                    <span class="badge {{ 'badge-success' if order.action == 'BUY' else 'badge-error' }}">
+                                        {{ order.action }}
+                                    </span>
+                                </td>
+                                <td>{{ order.quantity }}</td>
+                                <td>
+                                    <span class="badge {{ 'badge-warning' if order.status == 'PENDING' else 'badge-success' if order.status == 'COMPLETE' else 'badge-error' }}">
+                                        {{ order.status }}
+                                    </span>
+                                </td>
+                                <td>{{ order.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="6" class="text-center text-gray-500">No orders yet. Start trading via API!</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            {% if recent_orders %}
+            <div class="card-actions justify-end">
+                <a href="{{ url_for('dashboard.orders') }}" class="btn btn-primary btn-sm">View All Orders</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Quick Links -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="card bg-primary text-primary-content">
+            <div class="card-body">
+                <h2 class="card-title">📚 API Documentation</h2>
+                <p>Learn how to integrate OpenAlgo with your trading strategies.</p>
+                <div class="card-actions justify-end">
+                    <a href="https://github.com/gitmvp-com/openalgo-mvp" class="btn btn-sm" target="_blank">Read Docs</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card bg-secondary text-secondary-content">
+            <div class="card-body">
+                <h2 class="card-title">🔧 Settings</h2>
+                <p>Configure your broker credentials and preferences.</p>
+                <div class="card-actions justify-end">
+                    <a href="{{ url_for('dashboard.settings') }}" class="btn btn-sm">Configure</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card bg-accent text-accent-content">
+            <div class="card-body">
+                <h2 class="card-title">💬 Support</h2>
+                <p>Need help? Join our community or open an issue.</p>
+                <div class="card-actions justify-end">
+                    <a href="https://github.com/gitmvp-com/openalgo-mvp/issues" class="btn btn-sm" target="_blank">Get Help</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
