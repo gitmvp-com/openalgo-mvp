@@ -1,0 +1,59 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Logs
+*.log
+log/
+logs/
+
+# Database (will be in volume)
+db/
+*.db
+*.sqlite
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Keys and secrets
+keys/
+*.pem
+*.key
+
+# Documentation
+README.md
+.github/
+
+# Tests
+tests/
+.pytest_cache/
+.coverage
