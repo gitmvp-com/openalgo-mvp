@@ -1,0 +1,72 @@
+@import 'tailwindcss';
+
+/* Custom styles for OpenAlgo MVP */
+
+/* Base styles */
+body {
+  @apply bg-base-100;
+}
+
+/* Card hover effects */
+.card:hover {
+  @apply shadow-2xl transition-shadow duration-300;
+}
+
+/* Button animations */
+.btn {
+  @apply transition-all duration-200;
+}
+
+.btn:hover {
+  @apply scale-105;
+}
+
+/* Table improvements */
+.table {
+  @apply text-sm;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-base-200;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-base-300 rounded;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-base-content;
+}
+
+/* Loading animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading {
+  animation: spin 1s linear infinite;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
