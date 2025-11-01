@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - OpenAlgo MVP{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div class="flex justify-between items-center">
+        <h1 class="text-3xl font-bold">⚙️ Settings</h1>
+        <a href="{{ url_for('dashboard.index') }}" class="btn btn-outline btn-sm">← Back to Dashboard</a>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Account Information -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">👤 Account Information</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="label">
+                            <span class="label-text">Username</span>
+                        </label>
+                        <input type="text" value="{{ user.username }}" class="input input-bordered w-full" readonly />
+                    </div>
+                    <div>
+                        <label class="label">
+                            <span class="label-text">Email</span>
+                        </label>
+                        <input type="email" value="{{ user.email }}" class="input input-bordered w-full" readonly />
+                    </div>
+                    <div>
+                        <label class="label">
+                            <span class="label-text">Account Created</span>
+                        </label>
+                        <input type="text" value="{{ user.created_at.strftime('%Y-%m-%d') }}" class="input input-bordered w-full" readonly />
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- API Configuration -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">🔑 API Configuration</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="label">
+                            <span class="label-text">API Key</span>
+                        </label>
+                        <div class="input-group">
+                            <input type="text" value="{{ user.api_key }}" class="input input-bordered w-full" readonly />
+                            <button class="btn btn-square" onclick="navigator.clipboard.writeText('{{ user.api_key }}')">
+                                📋
+                            </button>
+                        </div>
+                    </div>
+                    <div class="alert alert-info">
+                        <span>Keep your API key secure. Never share it publicly.</span>
+                    </div>
+                    <button class="btn btn-warning btn-sm" disabled>Regenerate API Key</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Broker Settings -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">🏦 Broker Settings</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="label">
+                            <span class="label-text">Selected Broker</span>
+                        </label>
+                        <select class="select select-bordered w-full">
+                            <option disabled selected>Select a broker</option>
+                            <option>Zerodha</option>
+                            <option>AngelOne</option>
+                            <option>Upstox</option>
+                            <option>Dhan</option>
+                        </select>
+                    </div>
+                    <div class="alert alert-warning">
+                        <span>⚠️ Broker integration requires API credentials in .env file</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Theme Settings -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">🎨 Theme Settings</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="label">
+                            <span class="label-text">Select Theme</span>
+                        </label>
+                        <select class="select select-bordered w-full" onchange="document.documentElement.setAttribute('data-theme', this.value)">
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                            <option value="garden">Garden</option>
+                        </select>
+                    </div>
+                    <p class="text-sm text-gray-500">Choose your preferred interface theme</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Danger Zone -->
+    <div class="card bg-error text-error-content">
+        <div class="card-body">
+            <h2 class="card-title">⚠️ Danger Zone</h2>
+            <p>Permanent actions that cannot be undone</p>
+            <div class="card-actions justify-end">
+                <button class="btn btn-outline" disabled>Delete Account</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
